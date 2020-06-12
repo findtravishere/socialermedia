@@ -12,8 +12,16 @@
 	<div class="row text-center" style="display: flex; flex-wrap: wrap;">
 		<% feed.forEach((feed) =>{ %>
 		<div class="col-md-3 col-sm-6">
-			<div class="thumbnail"><img src="<%=  feed.image %>" /></div>
-			<div class="caption"><h4><%= feed.name %></h4></div>
+			<div class="thumbnail">
+				<img src="<%=  feed.image %>" />
+				<div class="caption">
+					<h4><%= feed.name %></h4>
+				</div>
+				<p>
+					<a href="/feed/<%=feed._id %>" class="btn btn-primary">More Info</a>
+					<%= feed.description %>
+				</p>
+			</div>
 		</div>
 		<% }); %>
 	</div>
