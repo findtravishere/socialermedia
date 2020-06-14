@@ -1,4 +1,4 @@
-<%- include ("partials/header") %>
+<%- include ("../partials/header") %>
 
 <div class="container">
 	<div class="row">
@@ -6,13 +6,13 @@
 		<div style="width: 30%; margin: 25px auto;">
 			<form action="/feed" method="POST">
 				<div class="form-group">
-					<input class="form-control" type="text" name="name" placeholder="name" />
+					<input class="form-control" type="text" name="feed[name]" placeholder="name" />
 				</div>
 				<div class="form-group">
-					<input class="form-control" type="text" name="image" placeholder="image url" />
+					<input class="form-control" type="text" name="feed[image]" placeholder="image url" />
 				</div>
 				<div class="form-group">
-					<input class="form-control" type="text" name="description" placeholder="description" />
+					<input class="form-control" type="text" name="feed[description]" placeholder="description" />
 				</div>
 				<div class="form-group">
 					<button class="btn btn-lg btn-primary btn-block">Submit</button>
@@ -24,4 +24,4 @@
 	</div>
 </div>
 
-<%- include ("partials/footer") %>
+<%- include ("../partials/footer") %>
