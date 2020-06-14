@@ -19,6 +19,7 @@
 						<a><%=feed.name%></a>
 					</h4>
 					<p><%= feed.description %></p>
+					<p><em>Posted by: <%=feed.author.username%></em></p>
 				</div>
 			</div>
 			<div class="well">
@@ -29,7 +30,7 @@
 				<% feed.comments.forEach((comment) => { %>
 				<div class="row">
 					<div class="col-md-12">
-						<strong><%=comment.author%> </strong>
+						<strong><%=comment.author.username%></strong>
 						<span class="pull-right">10 DAYS AGO</span>
 						<p><%=comment.text%></p>
 					</div>
