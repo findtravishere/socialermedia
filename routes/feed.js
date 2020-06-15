@@ -1,46 +1,45 @@
-const { update } = require("../models/socialfeed");
-
 const express = require("express"),
 	router = express.Router(),
-	Socialfeed = require("../models/socialfeed");
+	Socialfeed = require("../models/socialfeed"),
+	Middleware = require("../middleware");
 
-const loggedIn = (req, res, next) => {
-	if (req.isAuthenticated()) {
-		return next();
-	} else {
-		res.redirect("/login");
-	}
-};
+// const loggedIn = (req, res, next) => {
+// 	if (req.isAuthenticated()) {
+// 		return next();
+// 	} else {
+// 		res.redirect("/login");
+// 	}
+// };
 
-const checkUserLogin = (req, res, next) => {
-	if (req.isAuthenticated()) {
-		Socialfeed.findById(req.params.id, function (err, foundFeed) {
-			if (err) {
-				console.log(err);
-				res.redirect("back");
-			} else {
-				if (foundFeed.author.id.equals(req.user._id)) {
-					next();
-				} else {
-					res.redirect("back:");
-				}
-			}
-		});
-	} else {
-		res.redirect("back");
-	}
-};
-router.get("/", function (req, res) {
-	Socialfeed.find({}, function (err, socialfeed) {
-		if (err) {
-			console.log(err);
-		} else {
-			res.render("socialfeed/index", { feed: socialfeed });
-		}
-	});
-});
+// const checkUserLogin = (req, res, next) => {
+// 	if (req.isAuthenticated()) {
+// 		Socialfeed.findById(req.params.id, function (err, foundFeed) {
+// 			if (err) {
+// 				console.log(err);
+// 				res.redirect("back");
+// 			} else {
+// 				if (foundFeed.author.id.equals(req.user._id)) {
+// 					next();
+// 				} else {
+// 					res.redirect("back:");
+// 				}
+// 			}
+// 		});
+// 	} else {
+// 		res.redirect("back");
+// 	}
+// };
+// router.get("/", function (req, res) {
+// 	Socialfeed.find({}, function (err, socialfeed) {
+// 		if (err) {
+// 			console.log(err);
+// 		} else {
+// 			res.render("socialfeed/index", { feed: socialfeed });
+// 		}
+// 	});
+// });
 
-router.post("/", loggedIn, function (req, res) {
+router.post("/", Middleware.loggedIn, function (req, res) {
 	let name = req.body.name;
 	let image = req.body.image;
 	let description = req.body.description;
@@ -60,7 +59,7 @@ router.post("/", loggedIn, function (req, res) {
 	});
 });
 
-router.get("/new", loggedIn, function (req, res) {
+router.get("/new", Middleware.loggedIn, function (req, res) {
 	res.render("socialfeed/new");
 });
 
@@ -77,13 +76,13 @@ router.get("/:id", function (req, res) {
 		});
 });
 
-router.get("/:id/edit", checkUserLogin, function (req, res) {
+router.get("/:id/edit", Middleware.checkUserLogin, function (req, res) {
 	Socialfeed.findById(req.params.id, function (err, foundFeed) {
 		res.render("socialfeed/edit", { feed: foundFeed });
 	});
 });
 
-router.put("/:id", checkUserLogin, function (req, res) {
+router.put("/:id", Middleware.checkUserLogin, function (req, res) {
 	Socialfeed.findByIdAndUpdate(req.params.id, req.body.feed, function (err, updatedFeed) {
 		if (err) {
 			res.redirect("/feed");
@@ -93,7 +92,7 @@ router.put("/:id", checkUserLogin, function (req, res) {
 	});
 });
 
-router.delete("/:id", checkUserLogin, function (req, res) {
+router.delete("/:id", Middleware.checkUserLogin, function (req, res) {
 	Socialfeed.findByIdAndDelete(req.params.id, function (err, deletedFeed) {
 		if (err) {
 			res.redirect("/feed/" + req.params.id);
