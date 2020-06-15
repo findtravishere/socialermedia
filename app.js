@@ -1,5 +1,3 @@
-const comment = require("./models/comment");
-
 const express = require("express"),
 	app = express(),
 	bodyParser = require("body-parser"),
@@ -12,13 +10,15 @@ const express = require("express"),
 	User = require("./models/user"),
 	feedRoutes = require("./routes/feed"),
 	commentRoutes = require("./routes/comments"),
-	indexRoutes = require("./routes/index");
+	indexRoutes = require("./routes/index"),
+	methodOverride = require("method-override");
 
 // seedDB();
 mongoose.connect("mongodb://localhost/feed", { useNewUrlParser: true, useUnifiedTopology: true });
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride("_method"));
 app.use(
 	require("express-session")({
 		secret: "meme",

@@ -1,3 +1,5 @@
+const { update } = require("../models/socialfeed");
+
 const express = require("express"),
 	router = express.Router(),
 	Socialfeed = require("../models/socialfeed");
@@ -7,6 +9,25 @@ const loggedIn = (req, res, next) => {
 		return next();
 	} else {
 		res.redirect("/login");
+	}
+};
+
+const checkUserLogin = (req, res, next) => {
+	if (req.isAuthenticated()) {
+		Socialfeed.findById(req.params.id, function (err, foundFeed) {
+			if (err) {
+				console.log(err);
+				res.redirect("back");
+			} else {
+				if (foundFeed.author.id.equals(req.user._id)) {
+					next();
+				} else {
+					res.redirect("back:");
+				}
+			}
+		});
+	} else {
+		res.redirect("back");
 	}
 };
 router.get("/", function (req, res) {
@@ -54,6 +75,32 @@ router.get("/:id", function (req, res) {
 				res.render("socialfeed/show", { feed: foundSocialfeed });
 			}
 		});
+});
+
+router.get("/:id/edit", checkUserLogin, function (req, res) {
+	Socialfeed.findById(req.params.id, function (err, foundFeed) {
+		res.render("socialfeed/edit", { feed: foundFeed });
+	});
+});
+
+router.put("/:id", checkUserLogin, function (req, res) {
+	Socialfeed.findByIdAndUpdate(req.params.id, req.body.feed, function (err, updatedFeed) {
+		if (err) {
+			res.redirect("/feed");
+		} else {
+			res.redirect("/feed/" + req.params.id);
+		}
+	});
+});
+
+router.delete("/:id", checkUserLogin, function (req, res) {
+	Socialfeed.findByIdAndDelete(req.params.id, function (err, deletedFeed) {
+		if (err) {
+			res.redirect("/feed/" + req.params.id);
+		} else {
+			res.redirect("/feed");
+		}
+	});
 });
 
 module.exports = router;

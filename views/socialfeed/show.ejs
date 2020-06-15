@@ -20,6 +20,12 @@
 					</h4>
 					<p><%= feed.description %></p>
 					<p><em>Posted by: <%=feed.author.username%></em></p>
+					<% if(currentUser && feed.author.id.equals(currentUser._id)) { %>
+					<a class="btn btn-warning" href="/feed/<%=feed._id%>/edit">Edit</a>
+					<form id="delete" action="/feed/<%=feed._id%>?_method=DELETE" method="POST">
+						<button class="btn btn-danger">Delete</button>
+					</form>
+					<% } %>
 				</div>
 			</div>
 			<div class="well">
