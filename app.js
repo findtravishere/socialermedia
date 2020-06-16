@@ -15,18 +15,11 @@ const express = require("express"),
 	connectFlash = require("connect-flash");
 
 // seedDB();
-console.log(process.env.DATABASEURL);
-mongoose
-	.connect(process.env.DATABASEURL, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
-	.then(() => {
-		console.log("Connected to DB");
-	})
-	.catch((err) => {
-		console.log("error", err.message);
-	});
+let url = process.env.DATABASEURL || "mongodb://localhost/feed";
+mongoose.connect(url, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+});
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
