@@ -6,6 +6,7 @@ const middleware = {
 		if (req.isAuthenticated()) {
 			return next();
 		} else {
+			req.flash("error", "You have to be logged in first");
 			res.redirect("/login");
 		}
 	},
@@ -14,17 +15,19 @@ const middleware = {
 		if (req.isAuthenticated()) {
 			Socialfeed.findById(req.params.id, function (err, foundFeed) {
 				if (err) {
-					console.log(err);
+					req.flash("error", "Unable to load");
 					res.redirect("back");
 				} else {
 					if (foundFeed.author.id.equals(req.user._id)) {
 						next();
 					} else {
+						req.flash("error", "You do not have permission to do that");
 						res.redirect("back:");
 					}
 				}
 			});
 		} else {
+			req.flash("error", "You have to be logged in first");
 			res.redirect("back");
 		}
 	},
@@ -38,11 +41,13 @@ const middleware = {
 					if (foundComment.author.id.equals(req.user._id)) {
 						next();
 					} else {
+						req.flash("error", "You do not have permission to do that");
 						res.redirect("back:");
 					}
 				}
 			});
 		} else {
+			req.flash("error", "You have to be logged in first");
 			res.redirect("back");
 		}
 	},

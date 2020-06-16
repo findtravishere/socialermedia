@@ -17,6 +17,7 @@ let socialfeedSchema = new mongoose.Schema({
 			ref: "Comment",
 		},
 	],
+	created: { type: Date, default: Date.now },
 });
 
 let Socialfeed = mongoose.model("Socialfeed", socialfeedSchema);

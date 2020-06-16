@@ -29,15 +29,16 @@ const express = require("express"),
 // 		res.redirect("back");
 // 	}
 // };
-// router.get("/", function (req, res) {
-// 	Socialfeed.find({}, function (err, socialfeed) {
-// 		if (err) {
-// 			console.log(err);
-// 		} else {
-// 			res.render("socialfeed/index", { feed: socialfeed });
-// 		}
-// 	});
-// });
+
+router.get("/", function (req, res) {
+	Socialfeed.find({}, function (err, socialfeed) {
+		if (err) {
+			console.log(err);
+		} else {
+			res.render("socialfeed/index", { feed: socialfeed });
+		}
+	});
+});
 
 router.post("/", Middleware.loggedIn, function (req, res) {
 	let name = req.body.name;

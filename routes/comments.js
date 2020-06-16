@@ -50,6 +50,7 @@ router.post("/", Middleware.loggedIn, function (req, res) {
 			// let comment = req.body.comment;
 			Comment.create(req.body.comment, function (err, comment) {
 				if (err) {
+					req.flash("error", "Something went wrong");
 					console.log(err);
 				} else {
 					comment.author.id = req.user._id;
@@ -58,6 +59,7 @@ router.post("/", Middleware.loggedIn, function (req, res) {
 					console.log(comment);
 					feed.comments.push(comment);
 					feed.save();
+					req.flash("success", "Added a comment successfully");
 					res.redirect("/feed/" + feed._id);
 				}
 			});
@@ -90,6 +92,7 @@ router.delete("/:comment_id", Middleware.checkUserComment, function (req, res) {
 		if (err) {
 			res.redirect("back");
 		} else {
+			req.flash("success", "Successfully deleted comment");
 			res.redirect("/feed/" + req.params.id);
 		}
 	});

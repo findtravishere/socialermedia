@@ -11,7 +11,8 @@ const express = require("express"),
 	feedRoutes = require("./routes/feed"),
 	commentRoutes = require("./routes/comments"),
 	indexRoutes = require("./routes/index"),
-	methodOverride = require("method-override");
+	methodOverride = require("method-override"),
+	connectFlash = require("connect-flash");
 
 // seedDB();
 mongoose.connect("mongodb://localhost/feed", { useNewUrlParser: true, useUnifiedTopology: true });
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(connectFlash());
 app.use(
 	require("express-session")({
 		secret: "meme",
@@ -26,10 +28,13 @@ app.use(
 		saveUninitialized: false,
 	})
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use((req, res, next) => {
 	res.locals.currentUser = req.user;
+	res.locals.error = req.flash("error");
+	res.locals.success = req.flash("success");
 	next();
 });
 app.use("/feed", feedRoutes);
