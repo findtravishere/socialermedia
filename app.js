@@ -45,6 +45,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.listen(8080 || process.env.PORT, function () {
-	console.log("Server's running");
+let port = process.env.PORT || 3000;
+app.listen(port, function () {
+	console.log("Server Has Started!");
 });
