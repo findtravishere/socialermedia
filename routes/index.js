@@ -12,7 +12,7 @@ const loggedIn = (req, res, next) => {
 };
 
 router.get("/", function (req, res) {
-	res.render("landing");
+	res.redirect("/feed");
 });
 
 router.get("/register", function (req, res) {
@@ -46,6 +46,10 @@ router.post(
 router.get("/logout", function (req, res) {
 	req.logout();
 	req.flash("success", "Logged out");
+	res.redirect("/feed");
+});
+
+router.get("*", function (req, res) {
 	res.redirect("/feed");
 });
 
