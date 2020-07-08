@@ -11,15 +11,15 @@ const loggedIn = (req, res, next) => {
 	}
 };
 
-router.get("/", function (req, res) {
+router.get("/", (req, res) => {
 	res.redirect("/feed");
 });
 
-router.get("/register", function (req, res) {
+router.get("/register", (req, res) => {
 	res.render("register");
 });
 
-router.post("/register", function (req, res) {
+router.post("/register", (req, res) => {
 	User.register(new User({ username: req.body.username }), req.body.password, function (err, user) {
 		if (err) {
 			req.flash("error", err.message);
@@ -33,23 +33,23 @@ router.post("/register", function (req, res) {
 	});
 });
 
-router.get("/login", function (req, res) {
+router.get("/login", (req, res) => {
 	res.render("login");
 });
 
 router.post(
 	"/login",
 	passport.authenticate("local", { successRedirect: "/feed", failureRedirect: "/login" }),
-	function (req, res) {}
+	(req, res) => {}
 );
 
-router.get("/logout", function (req, res) {
+router.get("/logout", (req, res) => {
 	req.logout();
 	req.flash("success", "Logged out");
 	res.redirect("/feed");
 });
 
-router.get("*", function (req, res) {
+router.get("*", (req, res) => {
 	res.redirect("/feed");
 });
 

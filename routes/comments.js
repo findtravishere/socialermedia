@@ -31,7 +31,7 @@ const express = require("express"),
 // 	}
 // };
 
-router.get("/new", Middleware.loggedIn, function (req, res) {
+router.get("/new", Middleware.loggedIn, (req, res) => {
 	Socialfeed.findById(req.params.id, function (err, feed) {
 		if (err) {
 			console.log(err);
@@ -41,7 +41,7 @@ router.get("/new", Middleware.loggedIn, function (req, res) {
 	});
 });
 
-router.post("/", Middleware.loggedIn, function (req, res) {
+router.post("/", Middleware.loggedIn, (req, res) => {
 	Socialfeed.findById(req.params.id, function (err, feed) {
 		if (err) {
 			console.log(err);
@@ -67,7 +67,7 @@ router.post("/", Middleware.loggedIn, function (req, res) {
 	});
 });
 
-router.get("/:comment_id/edit", Middleware.checkUserComment, function (req, res) {
+router.get("/:comment_id/edit", Middleware.checkUserComment, (req, res) => {
 	Comment.findById(req.params.comment_id, function (err, foundComment) {
 		if (err) {
 			res.redirect("back");
@@ -77,7 +77,7 @@ router.get("/:comment_id/edit", Middleware.checkUserComment, function (req, res)
 	});
 });
 
-router.put("/:comment_id", Middleware.checkUserComment, function (req, res) {
+router.put("/:comment_id", Middleware.checkUserComment, (req, res) => {
 	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
 		if (err) {
 			res.redirect("back");
@@ -87,7 +87,7 @@ router.put("/:comment_id", Middleware.checkUserComment, function (req, res) {
 	});
 });
 
-router.delete("/:comment_id", Middleware.checkUserComment, function (req, res) {
+router.delete("/:comment_id", Middleware.checkUserComment, (req, res) => {
 	Comment.findByIdAndDelete(req.params.comment_id, function (err, deletedComment) {
 		if (err) {
 			res.redirect("back");

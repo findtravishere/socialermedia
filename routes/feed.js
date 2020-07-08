@@ -30,7 +30,7 @@ const express = require("express"),
 // 	}
 // };
 
-router.get("/", function (req, res) {
+router.get("/", (req, res) => {
 	Socialfeed.find({}, function (err, socialfeed) {
 		if (err) {
 			console.log(err);
@@ -40,7 +40,7 @@ router.get("/", function (req, res) {
 	});
 });
 
-router.post("/", Middleware.loggedIn, function (req, res) {
+router.post("/", Middleware.loggedIn, (req, res) => {
 	let name = req.body.name;
 	let image = req.body.image;
 	let description = req.body.description;
@@ -60,11 +60,11 @@ router.post("/", Middleware.loggedIn, function (req, res) {
 	});
 });
 
-router.get("/new", Middleware.loggedIn, function (req, res) {
+router.get("/new", Middleware.loggedIn, (req, res) => {
 	res.render("socialfeed/new");
 });
 
-router.get("/:id", function (req, res) {
+router.get("/:id", (req, res) => {
 	Socialfeed.findById(req.params.id)
 		.populate("comments")
 		.exec(function (err, foundSocialfeed) {
@@ -77,13 +77,13 @@ router.get("/:id", function (req, res) {
 		});
 });
 
-router.get("/:id/edit", Middleware.checkUserLogin, function (req, res) {
+router.get("/:id/edit", Middleware.checkUserLogin, (req, res) => {
 	Socialfeed.findById(req.params.id, function (err, foundFeed) {
 		res.render("socialfeed/edit", { feed: foundFeed });
 	});
 });
 
-router.put("/:id", Middleware.checkUserLogin, function (req, res) {
+router.put("/:id", Middleware.checkUserLogin, (req, res) => {
 	Socialfeed.findByIdAndUpdate(req.params.id, req.body.feed, function (err, updatedFeed) {
 		if (err) {
 			res.redirect("/feed");
@@ -93,7 +93,7 @@ router.put("/:id", Middleware.checkUserLogin, function (req, res) {
 	});
 });
 
-router.delete("/:id", Middleware.checkUserLogin, function (req, res) {
+router.delete("/:id", Middleware.checkUserLogin, (req, res) => {
 	Socialfeed.findByIdAndDelete(req.params.id, function (err, deletedFeed) {
 		if (err) {
 			res.redirect("/feed/" + req.params.id);
