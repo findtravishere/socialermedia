@@ -13,3 +13,7 @@
 .delete {
 	display: inline;
 }
+
+.centerlog {
+	text-align: center;
+}
